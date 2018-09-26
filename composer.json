@@ -1,0 +1,13 @@
+{
+    "name": "tao/testaplication",
+    "type": "Wordpress Template",
+    "require": {
+        "phpmailer/phpmailer": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Fabio Pimentel",
+            "email": "fabio.pimentel@taointerativa.com.br"
+        }
+    ]
+}
