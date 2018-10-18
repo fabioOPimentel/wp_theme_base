@@ -16,6 +16,8 @@ namespace Cpts;
 
 require_once __DIR__ . '../../security.php';
 
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
 class ContatoPostType
 {
 
@@ -34,7 +36,7 @@ class ContatoPostType
         ));
         $contato->setColumnsDisplay(array('test_text' => 'metabox'));
         $contato->setSortable(array('test_text'=>'Test Text'));
-        add_action('init', array($this, 'customFields'));
+        add_action('acf/init', array($this, 'customFields'));
     }
 
     public function contatoPostTypeActivation()
@@ -43,36 +45,16 @@ class ContatoPostType
     }
 
     public function customFields(){
-        $contato =  new OdinMetabox(
-            'areacontato',
-            'Campos da área contato',
-            'contato',
-            'normal',
-            'high'
-        );
+        $banner = new FieldsBuilder('banner');
+        $banner
+            ->addText('title')
+            ->addWysiwyg('content')
+            ->addImage('background_image')
+            ->addRepeater('slides')
+            ->addWysiwyg('content')
+            ->setLocation('post_type', '==', 'cabecalho');
 
-        $contato->set_fields(
-            array(
-                array(
-                    'id'         => 'test_text', // Required
-                    'label'      => __( 'Test Text', 'odin' ), // Required
-                    'type'       => 'text', // Required
-                    'attributes' => array( // Optional (html input elements)
-                        'placeholder' => __( 'Some text here!' )
-                    ),
-                    // 'default'  => 'Default text', // Optional
-                    'description' => __( 'Text field description', 'odin' ) // Optional
-                ),
-                // Image Plupload field.
-                array(
-                    'id'          => 'test_image_plupload', // Required
-                    'label'       => __( 'Test Image Plupload', 'odin' ), // Required
-                    'type'        => 'image_plupload', // Required
-                    // 'default'     => '', // Optional (image attachment ids separated with comma)
-                    'description' => __( 'Image Plupload field description', 'odin' ), // Optional
-                )
-            )
-        );
+        acf_add_local_field_group($banner->build());
     }
 
 

@@ -9,6 +9,10 @@ require 'vendor/autoload.php';
 require "inc/autoloadApp.php";
 require "inc/autoloadCpts.php";
 
+//plugins de terceiros
+include ('third_plugins/advanced-custom-fields/acf.php');
+include ('third_plugins/acf-repeater-master/acf-repeater.php');
+
 use App\RegistrandoMenus;
 use App\EnfileirandoEstilos;
 use App\EnviandoContato;

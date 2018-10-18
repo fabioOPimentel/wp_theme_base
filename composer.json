@@ -2,7 +2,8 @@
     "name": "tao/testaplication",
     "type": "Wordpress Template",
     "require": {
-        "phpmailer/phpmailer": "^6.0"
+        "phpmailer/phpmailer": "^6.0",
+        "stoutlogic/acf-builder": "^1.8"
     },
     "authors": [
         {
