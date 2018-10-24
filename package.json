@@ -1,7 +1,7 @@
 {
-  "name": "planetaolodum",
+  "name": "templatebase",
   "version": "1.0.0",
-  "description": "Website Planeta Olodum",
+  "description": "Teme base for wordpress template",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,9 +9,12 @@
   "author": "Fábio O. Pimentel",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.2.1",
-    "vue": "^2.4.4",
-    "vue-resource": "^1.3.4",
+    "bootstrap3": "^3.3.5",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "slick-carousel": "^1.8.1",
+    "vue": "^2.5.17",
+    "vue-resource": "^1.5.1",
     "vue.js": "^0.3.2"
   }
 }

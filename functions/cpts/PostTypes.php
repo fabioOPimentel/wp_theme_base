@@ -22,6 +22,8 @@ class PostTypes
 
     public $icon;
 
+    public $position;
+
     public $taxonomies;
 
     public $useTax;
@@ -35,13 +37,21 @@ class PostTypes
     public $sortable;
 
     public $textdomain;
-
+    /**
+     * Construct Function
+     *
+     * @param [string] post_type Name
+     * @param [string] Singular name
+     * @param [string] Plural name
+     * @param [string] slug
+     */
     public function __construct($post_type_name,$singular,$plural,$slug)
     {
         $this->post_type = $post_type_name;
         $this->singular = $singular;
         $this->plural = $plural;
         $this->slug = $slug;
+        register_activation_hook(__FILE__, array($this, 'postTypeActivation'));
         add_action('init', array($this, 'postType'));
         add_action('init', array($this, 'postTypeTaxonomy'));
         add_filter("manage_edit-{$this->post_type}_sortable_columns", array($this, "customRegisterSortable") );
@@ -84,9 +94,19 @@ class PostTypes
         $this->icon = $value;
     }
 
+    public function setPosition($value)
+    {
+        $this->position = $value;
+    }
+
     public function setUseTax($value)
     {
         $this->useTax = $value;
+    }
+
+    public function postTypeActivation()
+    {
+        flush_rewrite_rules();
     }
 
     public function postType()
@@ -113,6 +133,7 @@ class PostTypes
             'capabilities' => isset($this->capabilities) ? $this->capabilities : array('create_posts' => 'edit_others_posts'),
             'map_meta_cap' => true,
             "menu_icon" => isset($this->icon) ? $this->icon : 'dashicons-admin-post',
+            'menu_position' => $this->position,
             'rewrite' => array("slug" => "contato"),
             'has_archive' => false
         );
@@ -152,7 +173,7 @@ class PostTypes
         ];
 
         if(isset($this->useTax)):
-            register_taxonomy('custom_category', $this->post_type, $taxonomy_category_args);
+            register_taxonomy($this->slug.'_category', $this->post_type, $taxonomy_category_args);
         endif;
     }
 
@@ -174,7 +195,7 @@ class PostTypes
                     echo  get_post_meta( $post_id, $name, false )[0];
                 elseif($value == 'category'):
                     if ($category_list = get_the_term_list($post_id, $name, '', ', ', '')):
-                        var_dump($category_list);
+                        echo $category_list;
                     else:
                         echo __('Vazio', $this->post_type);
                     endif;

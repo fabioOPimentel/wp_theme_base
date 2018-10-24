@@ -1,16 +1,13 @@
 /* @flow */
 
-import {
-  isDef,
-  isUndef,
-  isTrue
-} from 'shared/util'
-
 import { escape } from 'web/server/util'
 import { SSR_ATTR } from 'shared/constants'
 import { RenderContext } from './render-context'
+import { generateComponentTrace } from 'core/util/debug'
 import { ssrCompileToFunctions } from 'web/server/compiler'
 import { installSSRHelpers } from './optimizing-compiler/runtime-helpers'
+
+import { isDef, isUndef, isTrue } from 'shared/util'
 
 import {
   createComponent,
@@ -25,13 +22,22 @@ const warnOnce = msg => {
   }
 }
 
+const onCompilationError = (err, vm) => {
+  const trace = vm ? generateComponentTrace(vm) : ''
+  throw new Error(`\n\u001b[31m${err}${trace}\u001b[39m\n`)
+}
+
 const normalizeRender = vm => {
   const { render, template, _scopeId } = vm.$options
   if (isUndef(render)) {
     if (template) {
-      Object.assign(vm.$options, ssrCompileToFunctions(template, {
-        scopeId: _scopeId
-      }))
+      const compiled = ssrCompileToFunctions(template, {
+        scopeId: _scopeId,
+        warn: onCompilationError
+      }, vm)
+
+      vm.$options.render = compiled.render
+      vm.$options.staticRenderFns = compiled.staticRenderFns
     } else {
       throw new Error(
         `render function or template not defined in component: ${
@@ -185,16 +191,27 @@ function renderAsyncComponent (node, isRoot, context) {
       tag
     )
     if (resolvedNode) {
-      renderComponent(resolvedNode, isRoot, context)
+      if (resolvedNode.componentOptions) {
+        // normal component
+        renderComponent(resolvedNode, isRoot, context)
+      } else if (!Array.isArray(resolvedNode)) {
+        // single return node from functional component
+        renderNode(resolvedNode, isRoot, context)
+      } else {
+        // multiple return nodes from functional component
+        context.renderStates.push({
+          type: 'Fragment',
+          children: resolvedNode,
+          rendered: 0,
+          total: resolvedNode.length
+        })
+        context.next()
+      }
     } else {
-      reject()
+      // invalid component, but this does not throw on the client
+      // so render empty comment node
+      context.write(`<!---->`, context.next)
     }
-  }
-
-  const reject = err => {
-    console.error(`[vue-server-renderer] error when rendering async component:\n`)
-    if (err) console.error(err.stack)
-    context.write(`<!--${node.text}-->`, context.next)
   }
 
   if (factory.resolved) {
@@ -202,6 +219,7 @@ function renderAsyncComponent (node, isRoot, context) {
     return
   }
 
+  const reject = context.done
   let res
   try {
     res = factory(resolve, reject)
@@ -229,9 +247,10 @@ function renderStringNode (el, context) {
     const children: Array<VNode> = el.children
     context.renderStates.push({
       type: 'Element',
+      children,
       rendered: 0,
       total: children.length,
-      endTag: el.close, children
+      endTag: el.close
     })
     write(el.open, next)
   }
@@ -246,8 +265,8 @@ function renderElement (el, isRoot, context) {
     el.data.attrs[SSR_ATTR] = 'true'
   }
 
-  if (el.functionalOptions) {
-    registerComponentForCache(el.functionalOptions, write)
+  if (el.fnOptions) {
+    registerComponentForCache(el.fnOptions, write)
   }
 
   const startTag = renderStartingTag(el, context)
@@ -260,9 +279,10 @@ function renderElement (el, isRoot, context) {
     const children: Array<VNode> = el.children
     context.renderStates.push({
       type: 'Element',
+      children,
       rendered: 0,
       total: children.length,
-      endTag, children
+      endTag
     })
     write(startTag, next)
   }
@@ -336,11 +356,15 @@ function renderStartingTag (node: VNode, context) {
   ) {
     markup += ` ${(scopeId: any)}`
   }
-  while (isDef(node)) {
-    if (isDef(scopeId = node.context.$options._scopeId)) {
-      markup += ` ${scopeId}`
+  if (isDef(node.fnScopeId)) {
+    markup += ` ${node.fnScopeId}`
+  } else {
+    while (isDef(node)) {
+      if (isDef(scopeId = node.context.$options._scopeId)) {
+        markup += ` ${scopeId}`
+      }
+      node = node.parent
     }
-    node = node.parent
   }
   return markup + '>'
 }
