@@ -25,6 +25,9 @@
     $vw-context: (1920 * 0.01) * 1px;   
     @return ($target / $vw-context) * 1vw; 
 }
+@function pxtopercent($target, $parent: 16) {
+    @return percentage($target / $parent);
+}
 /**
 *   Mixins
 */
@@ -46,15 +49,5 @@
     -moz-transform: $propiedade;
     -o-transform: $propiedade;
     transform: $propiedade;
-}
-
-@media(min-width: 220px){
-    
-}
-@media(min-width: 768px){
-    
-}
-@media(min-width: 1280px){
-    
 }
 

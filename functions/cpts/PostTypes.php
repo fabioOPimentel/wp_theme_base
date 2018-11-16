@@ -6,44 +6,45 @@ require_once __DIR__ . '../../security.php';
 
 class PostTypes
 {
-    public $post_type;
+    private $post_type;
 
-    public $singular;
+    private $singular;
 
-    public $plural;
+    private $plural;
 
-    public $slug;
+    private $slug;
 
-    public $support;
+    private $support;
 
-    public $showInMenu;
+    private $showInMenu;
 
-    public $capabilities;
+    private $capabilities;
 
-    public $icon;
+    private $icon;
+    
+    private $position;
+    
+    private $taxonomies;
 
-    public $position;
+    private $useTax;
 
-    public $taxonomies;
+    private $taxonomy_settings;
 
-    public $useTax;
+    private $columns;
 
-    public $taxonomy_settings;
+    private $columnsDisplay;
 
-    public $columns;
+    private $sortable;
 
-    public $columnsDisplay;
+    private $textdomain;
 
-    public $sortable;
-
-    public $textdomain;
     /**
      * Construct Function
      *
-     * @param [string] post_type Name
-     * @param [string] Singular name
-     * @param [string] Plural name
-     * @param [string] slug
+     * @param string $post_type string que determina o post_type
+     * @param string $singular declara o singular name para o post type
+     * @param string $plural declara o name para o post type
+     * @param string $slug declara um slug para o post type
      */
     public function __construct($post_type_name,$singular,$plural,$slug)
     {
@@ -59,49 +60,136 @@ class PostTypes
         add_action('manage_posts_custom_column', array($this, 'postTypeColumnsDisplay'), 10, 2);
     }
 
+    /**
+     * setSupport
+     * 
+     * Declare os items suportados por o menu de edição
+     * do seu post type
+     * 
+     * @var array $value Declare os items suportados por o menu de edição do seu post type
+     */
     public function setSupport($value = array())
     {
         $this->support = $value;
     }
 
+    /**
+     * setCapabilities
+     *
+     * Determina os capability_type para o post type
+     * 
+     * @link https://codex.wordpress.org/Function_Reference/register_post_type Documentação official
+     * 
+     * @var array $value Determina os $capabilities para o post type
+     */
     public function setCapabilities($value = array())
     {
         $this->capabilities = $value;
     }
 
+    /**
+     * setColumns
+     *
+     * Defina o formato da coluna de exibição
+     * 
+     * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_posts_custom_column
+     * 
+     * @param array $value define o formato da coluna
+     */
     public function setColumns($value = array())
     {
         $this->columns = $value;
     }
 
+    /**
+     * setColumnsDisplay
+     *
+     * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_posts_custom_column
+     * 
+     * @param array $value define um valor customizado que deve aparecer na coluna de exibição
+     */
     public function setColumnsDisplay($value = array())
     {
         $this->columnsDisplay = $value;
     }
 
+    /**
+     * setSortable
+     *
+     * @link https://codex.wordpress.org/Plugin_API/Action_Reference/manage_posts_custom_column
+     * 
+     * @param array $value define quais valores serão organizaveis
+     */
     public function setSortable($value = array())
     {
         $this->sortable = $value;
     }
 
+    /**
+     * setShowInMenu
+     * 
+     * Determina seu o post type sera mostrado no menu
+     * administrativo
+     *
+     * @var boolean $value mostra o post type no menu administrativo 
+     */
     public function setShowInMenu($value)
     {
         $this->showInMenu = $value;
     }
 
+    /**
+     * setIcon
+     *
+     * Determina um icon para o post type com base
+     * no Dashicons do wordpress
+     * 
+     * @link https://developer.wordpress.org/resource/dashicons/ Developer Resources: Dashicons
+     * 
+     * @var string $value Determina um icon com base no dashicons
+     */
     public function setIcon($value)
     {
         $this->icon = $value;
     }
 
+    /**
+     * setPosition
+     * 
+     * Define a posição que o post type sera exibida no menu
+     *
+     * @var int $value Define a posição que o post type sera exibida no menu
+     */
     public function setPosition($value)
     {
         $this->position = $value;
     }
 
+    /**
+     * setUseTax
+     *
+     * Define se o post type usa ou não taxonomias/categorias
+     * 
+     * @param boolean $value Define se o post type usa ou não taxonomias/categorias
+     */
     public function setUseTax($value)
     {
         $this->useTax = $value;
+    }
+
+    /**
+     * addImageSize
+     * 
+     * Define um formato de corte para uploads
+     * do WordPress
+     *
+     * @param string $name Identificador de tamanho da imagem.
+     * @param int $x Largura da imagem em pixels.
+     * @param int $y Altura da imagem em pixels.
+     */
+    public function addImageSize($name,$x,$y)
+    {
+        add_image_size($name, $x, $y, true);
     }
 
     public function postTypeActivation()
@@ -212,11 +300,6 @@ class PostTypes
             endforeach;
         endif;
         return $custom_columns;
-    }
-
-    public function addImageSize($name,$x,$y)
-    {
-        add_image_size($name, $x, $y, true);
     }
 
 }

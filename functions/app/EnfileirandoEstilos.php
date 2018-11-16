@@ -25,6 +25,7 @@ class EnfileirandoEstilos
         wp_enqueue_script('bootstrap', get_template_directory_uri() . '/node_modules/bootstrap3/dist/js/bootstrap.js', array(), '', true);
         wp_enqueue_script('vue', get_template_directory_uri() . '/node_modules/vue/dist/vue.js', array(), '', true);
         wp_enqueue_script('vue-resource', get_template_directory_uri() . '/node_modules/vue-resource/dist/vue-resource.js', array(), '', true);
+        wp_enqueue_script('lozad', get_template_directory_uri() . '/node_modules/lozad/dist/lozad.js', array(), '', true);
         wp_enqueue_script('slick', get_template_directory_uri() . '/node_modules/slick-carousel/slick/slick.js', array(), '', true);
         wp_enqueue_script('template-js', get_template_directory_uri() . '/assets/js/template.js', array(), '', true);
     }

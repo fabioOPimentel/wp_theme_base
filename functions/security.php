@@ -1,5 +1,5 @@
 <?php
 if( ! defined( 'ABSPATH' ) ) {
-        header( 'Location: /lkx/' );
+        header( 'Location: '.bloginfo('url') );
         exit;
     }
