@@ -25,7 +25,8 @@ class ContatoPostType
     {
         register_activation_hook(__FILE__, array($this, 'contatoPostTypeActivation'));
         $contato =  new PostTypes('contato','Contato','Contato','contato');
-        $contato->setSupport( array('title', 'revisions', 'thumbnail') );
+        $contato->setSupport( array('title', 'editor', 'revisions', 'thumbnail') );
+        //$contato->setRest(true);
         $contato->setCapabilities( array('create_posts' => 'edit_others_posts') );
         $contato->addImageSize('contato', '238', '238');
         $contato->setColumns(array(
@@ -52,7 +53,7 @@ class ContatoPostType
             ->addImage('background_image')
             ->addRepeater('slides')
             ->addWysiwyg('content')
-            ->setLocation('post_type', '==', 'cabecalho');
+            ->setLocation('post_type', '==', 'contato');
 
         acf_add_local_field_group($banner->build());
     }

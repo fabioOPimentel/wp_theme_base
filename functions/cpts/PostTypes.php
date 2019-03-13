@@ -38,6 +38,8 @@ class PostTypes
 
     private $textdomain;
 
+    private $enableRest;
+
     /**
      * Construct Function
      *
@@ -178,6 +180,18 @@ class PostTypes
     }
 
     /**
+     * setRest
+     *
+     * Habilita REST API para custom post type
+     * 
+     * @param boolean $value Habilita REST API
+     */
+    public function setRest($value)
+    {
+        $this->enableRest = $value;
+    }
+
+    /**
      * addImageSize
      * 
      * Define um formato de corte para uploads
@@ -217,6 +231,7 @@ class PostTypes
             'exclude_from_search' => true,
             'show_in_menu' => $this->showInMenu,
             'supports' => isset($this->support) ? $this->support : array('title', 'editor', 'revisions', 'thumbnail'),
+            'show_in_rest' =>  isset($this->enableRest) ? $this->enableRest : false,
             'capability_type' => 'post',
             'capabilities' => isset($this->capabilities) ? $this->capabilities : array('create_posts' => 'edit_others_posts'),
             'map_meta_cap' => true,
