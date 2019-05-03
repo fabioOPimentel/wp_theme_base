@@ -12,7 +12,7 @@
     "bootstrap3": "^3.3.5",
     "font-awesome": "^4.7.0",
     "intersection-observer": "^0.5.1",
-    "jquery": "^3.3.1",
+    "jquery": ">=3.4.0",
     "lozad": "^1.7.0",
     "slick-carousel": "^1.8.1",
     "vue": "^2.5.17",
