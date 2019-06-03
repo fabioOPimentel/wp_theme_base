@@ -9,45 +9,84 @@
 /**
 * Importações
 */
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins/_breakpoints";
+
+/**
+* Z-index Position
+*/
+$position_primary : 2000;
+$position_secundary: 1000;
+$position_terciary: 500;
+$last_position: 100;
+$belowall: -1;
 
 /**
 * Functions
 */
-@function get-vw($target) {   
-    $vw-context: (320 * 0.01) * 1px;   
-    @return ($target / $vw-context) * 1vw; 
+@function get-vw($target, $vw-viewport:320) {
+    $vw-context: ($vw-viewport * 0.01) * 1px;
+    @return ($target / $vw-context) * 1vw;
 }
-@function get-vw768($target) {   
-    $vw-context: (768 * 0.01) * 1px;   
-    @return ($target / $vw-context) * 1vw; 
-}
-@function get-vw1920($target) {   
-    $vw-context: (1920 * 0.01) * 1px;   
-    @return ($target / $vw-context) * 1vw; 
-}
+
 @function pxtopercent($target, $parent: 16) {
     @return percentage($target / $parent);
 }
+
 /**
 *   Mixins
 */
-@mixin fontsize($size, $base: 10){
+@mixin fontsize($size, $base: 16) {
     font-size: $size + px;
     font-size: ($size/$base) * 1rem;
 }
 
-@mixin transition($propiedade, $tempo, $curva, $delay){
+@mixin transition($propiedade, $tempo, $curva, $delay) {
     -webkit-transition: $propiedade $tempo $curva $delay;
     -moz-transition: $propiedade $tempo $curva $delay;
     -o-transition: $propiedade $tempo $curva $delay;
     transition: $propiedade $tempo $curva $delay;
 }
 
-@mixin transform($propiedade){
-    -ms-transform: $propiedade;
-    -webkit-transform: $propiedade;
-    -moz-transform: $propiedade;
-    -o-transform: $propiedade;
-    transform: $propiedade;
+@mixin prefix($property, $value, $prefixes: ()) {
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    }
+
+    #{$property}: $value;
 }
 
+html,
+body {
+    height: 100%;
+    font-size: 16px;
+}
+
+.hidden-title {
+    position: absolute;
+    clip: rect(1px 1px 1px 1px);
+    /* for Internet Explorer */
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+@include media-breakpoint-up(xs) {
+
+}
+@include media-breakpoint-up(sm){
+    
+}
+@include media-breakpoint-up(md){
+
+}
+@include media-breakpoint-up(lg){
+
+}
+@include media-breakpoint-up(xl){
+
+}
