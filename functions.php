@@ -19,6 +19,7 @@ use App\RegistrandoMenus;
 use App\EnfileirandoEstilos;
 use App\EnviandoContato;
 use App\WpHtmlCompression;
+use App\Gcaptcha;
 
 //Carregando Custom Post-Type
 new Cpts\ContatoPostType;
