@@ -9,7 +9,7 @@ class Gcaptcha
 
     public function verifyCaptcha()
     {
-        $secret = '6Lc5x3cUAAAAAEmY1ZOMUOBSrMBqtUgv2L-2YdCy';
+        $secret = '[secret]';
         $response = filter_input(INPUT_POST,'response');
         $ip = filter_input(INPUT_POST,'ip');
 
