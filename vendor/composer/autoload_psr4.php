@@ -6,8 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Walkers\\' => array($baseDir . '/walkers'),
     'StoutLogic\\AcfBuilder\\' => array($vendorDir . '/stoutlogic/acf-builder/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'Library\\' => array($baseDir . '/functions/library'),
+    'Helpers\\' => array($baseDir . '/functions/helpers'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
+    'Cpts\\' => array($baseDir . '/functions/cpts'),
 );

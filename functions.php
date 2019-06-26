@@ -5,21 +5,19 @@ require_once 'functions/security.php';
 //Carregando autoloader do composer
 require 'vendor/autoload.php';
 
-//Carregando autoloader do tema
-require "inc/autoloadApp.php";
-require "inc/autoloadCpts.php";
-
-//Verificando Dependencias
-include "inc/acf-missing.php";
-
 //plugins de terceiros
-include ('third_plugins/advanced-custom-fields/acf.php');
+//include ('third_plugins/advanced-custom-fields/acf.php');
 
-use App\RegistrandoMenus;
-use App\EnfileirandoEstilos;
-use App\EnviandoContato;
-use App\WpHtmlCompression;
-use App\Gcaptcha;
+//Carregando helpers
+new Helpers\acfFields;
+new Helpers\acfMissing;
+
+//Carregando bibliotecas
+use Library\RegistrandoMenus;
+use Library\EnfileirandoEstilos;
+use Library\EnviandoContato;
+use Library\WpHtmlCompression;
+use Library\Gcaptcha;
 
 //Carregando Custom Post-Type
 new Cpts\ContatoPostType;

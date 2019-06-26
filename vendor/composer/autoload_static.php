@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
 {
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'Walkers\\' => 8,
+        ),
         'S' => 
         array (
             'StoutLogic\\AcfBuilder\\' => 22,
@@ -15,14 +19,30 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'L' => 
+        array (
+            'Library\\' => 8,
+        ),
+        'H' => 
+        array (
+            'Helpers\\' => 8,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
         ),
+        'C' => 
+        array (
+            'Cpts\\' => 5,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Walkers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/walkers',
+        ),
         'StoutLogic\\AcfBuilder\\' => 
         array (
             0 => __DIR__ . '/..' . '/stoutlogic/acf-builder/src',
@@ -30,6 +50,14 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Library\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/functions/library',
+        ),
+        'Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/functions/helpers',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -39,6 +67,57 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
+        'Cpts\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/functions/cpts',
+        ),
+    );
+
+    public static $classMap = array (
+        'Cpts\\ContatoPostType' => __DIR__ . '/../..' . '/functions/cpts/ContatoPostType.php',
+        'Cpts\\PostTypes' => __DIR__ . '/../..' . '/functions/cpts/PostTypes.php',
+        'Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
+        'Doctrine\\Instantiator\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/ExceptionInterface.php',
+        'Doctrine\\Instantiator\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/InvalidArgumentException.php',
+        'Doctrine\\Instantiator\\Exception\\UnexpectedValueException' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/UnexpectedValueException.php',
+        'Doctrine\\Instantiator\\Instantiator' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Instantiator.php',
+        'Doctrine\\Instantiator\\InstantiatorInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/InstantiatorInterface.php',
+        'Helpers\\acfFields' => __DIR__ . '/../..' . '/functions/helpers/acfFields.php',
+        'Helpers\\acfMissing' => __DIR__ . '/../..' . '/functions/helpers/acfMissing.php',
+        'Library\\EnfileirandoEstilos' => __DIR__ . '/../..' . '/functions/library/EnfileirandoEstilos.php',
+        'Library\\EnviandoContato' => __DIR__ . '/../..' . '/functions/library/EnviandoContato.php',
+        'Library\\RegistrandoMenus' => __DIR__ . '/../..' . '/functions/library/RegistrandoMenus.php',
+        'Library\\WpHtmlCompression' => __DIR__ . '/../..' . '/functions/library/WpHtmlCompression.php',
+        'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
+        'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
+        'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
+        'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
+        'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
+        'StoutLogic\\AcfBuilder\\AccordionBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/AccordionBuilder.php',
+        'StoutLogic\\AcfBuilder\\Builder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Builder.php',
+        'StoutLogic\\AcfBuilder\\ChoiceFieldBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/ChoiceFieldBuilder.php',
+        'StoutLogic\\AcfBuilder\\ConditionalBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/ConditionalBuilder.php',
+        'StoutLogic\\AcfBuilder\\FieldBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FieldBuilder.php',
+        'StoutLogic\\AcfBuilder\\FieldManager' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FieldManager.php',
+        'StoutLogic\\AcfBuilder\\FieldNameCollisionException' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FieldNameCollisionException.php',
+        'StoutLogic\\AcfBuilder\\FieldNotFoundException' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FieldNotFoundException.php',
+        'StoutLogic\\AcfBuilder\\FieldsBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FieldsBuilder.php',
+        'StoutLogic\\AcfBuilder\\FlexibleContentBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/FlexibleContentBuilder.php',
+        'StoutLogic\\AcfBuilder\\GroupBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/GroupBuilder.php',
+        'StoutLogic\\AcfBuilder\\LocationBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/LocationBuilder.php',
+        'StoutLogic\\AcfBuilder\\ModifyFieldReturnTypeException' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/ModifyFieldReturnTypeException.php',
+        'StoutLogic\\AcfBuilder\\NamedBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/NamedBuilder.php',
+        'StoutLogic\\AcfBuilder\\ParentDelegationBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/ParentDelegationBuilder.php',
+        'StoutLogic\\AcfBuilder\\RepeaterBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/RepeaterBuilder.php',
+        'StoutLogic\\AcfBuilder\\TabBuilder' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/TabBuilder.php',
+        'StoutLogic\\AcfBuilder\\Transform\\ConditionalField' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/ConditionalField.php',
+        'StoutLogic\\AcfBuilder\\Transform\\ConditionalLogic' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/ConditionalLogic.php',
+        'StoutLogic\\AcfBuilder\\Transform\\FlexibleContentLayout' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/FlexibleContentLayout.php',
+        'StoutLogic\\AcfBuilder\\Transform\\IterativeTransform' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/IterativeTransform.php',
+        'StoutLogic\\AcfBuilder\\Transform\\NamespaceFieldKey' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/NamespaceFieldKey.php',
+        'StoutLogic\\AcfBuilder\\Transform\\RecursiveTransform' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/RecursiveTransform.php',
+        'StoutLogic\\AcfBuilder\\Transform\\Transform' => __DIR__ . '/..' . '/stoutlogic/acf-builder/src/Transform/Transform.php',
+        'Walkers\\WalkerMenuPrincipal' => __DIR__ . '/../..' . '/walkers/WalkerMenuPrincipal.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -46,6 +125,7 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Library;
 
 require_once __DIR__ . '../../security.php';
 
