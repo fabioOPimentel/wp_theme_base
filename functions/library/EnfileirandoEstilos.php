@@ -6,12 +6,6 @@ require_once __DIR__ . '../../security.php';
 
 class EnfileirandoEstilos
 {
-
-    public function __construct()
-    {
-
-    }
-
     public function enfileirandoEstilo()
     {
         //Css

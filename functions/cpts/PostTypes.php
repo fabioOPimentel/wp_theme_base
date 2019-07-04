@@ -6,40 +6,6 @@ require_once __DIR__ . '../../security.php';
 
 class PostTypes
 {
-    private $post_type;
-
-    private $singular;
-
-    private $plural;
-
-    private $slug;
-
-    private $support;
-
-    private $showInMenu;
-
-    private $capabilities;
-
-    private $icon;
-    
-    private $position;
-    
-    private $taxonomies;
-
-    private $useTax;
-
-    private $taxonomy_settings;
-
-    private $columns;
-
-    private $columnsDisplay;
-
-    private $sortable;
-
-    private $textdomain;
-
-    private $enableRest;
-
     /**
      * Construct Function
      *
