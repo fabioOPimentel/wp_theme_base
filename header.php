@@ -12,7 +12,7 @@
         <script type="text/javascript">
             var onloadCallback = function() {
                 grecaptcha.render('html_element', {
-                'sitekey' : '{SITE_KEY}',
+                'sitekey' : '[SITE_KEY]',
                 'callback' : testapp.correctCaptcha
                 });
             };

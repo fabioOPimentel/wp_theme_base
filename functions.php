@@ -81,6 +81,10 @@ class Functions
         add_action("wp_ajax_nopriv_enviar_contato",array(new EnviandoContato, 'sendContactForm'));
         add_action("wp_ajax_enviar_contato", array(new EnviandoContato, 'sendContactForm'));
 
+        /* Verificando Captcha */
+        add_action("wp_ajax_nopriv_gCaptcha",array(new Gcaptcha, 'verifyCaptcha'));
+        add_action("wp_ajax_gCaptcha", array(new Gcaptcha, 'verifyCaptcha'));
+
         /* Comprimindo codigo HTML */
         //add_action('after_setup_theme', array($this, 'wp_html_compression_start'));
     }
