@@ -1,11 +1,29 @@
 <?php 
 
-namespace Cpts;
+namespace Library;
 
 require_once __DIR__ . '../../security.php';
 
 class PostTypes
 {
+    private $post_type;
+
+    private $singular;
+
+    private $plural;
+
+    private $slug;
+    
+    private $taxonomies;
+
+    private $taxonomy_settings;
+
+    private $textdomain;
+
+    private $showInMenu;
+    
+    private $position;
+
     /**
      * Construct Function
      *

@@ -17,6 +17,7 @@ namespace Cpts;
 require_once __DIR__ . '../../security.php';
 
 use StoutLogic\AcfBuilder\FieldsBuilder;
+use Library\PostTypes;
 
 class ContatoPostType
 {

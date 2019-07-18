@@ -38,4 +38,14 @@ class EnfileirandoEstilos
         endif;
     }
 
+    private function modifyJsxTag($myHandler)
+    {
+        add_filter( 'script_loader_tag', function($tag, $handle, $src) use ($myHandler){
+            if ( $myHandler == $handle ) {
+                $tag = str_replace( "<script type='text/javascript'", "<script type='module'", $tag );
+            }
+            return $tag;
+        }, 10, 3 );
+    }
+
 }
