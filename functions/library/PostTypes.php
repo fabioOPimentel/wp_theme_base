@@ -221,7 +221,7 @@ class PostTypes
             'map_meta_cap' => true,
             "menu_icon" => isset($this->icon) ? $this->icon : 'dashicons-admin-post',
             'menu_position' => $this->position,
-            'rewrite' => array("slug" => "contato"),
+            'rewrite' => array("slug" => $this->slug),
             'has_archive' => false
         );
 
