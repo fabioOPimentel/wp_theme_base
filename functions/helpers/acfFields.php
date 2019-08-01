@@ -7,10 +7,23 @@ require_once __DIR__ . '../../security.php';
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class acfFields {
+    /**
+     * Singleton
+     */
+    
+    private static $instance;
 
-    public function __construct() 
+    public static function getInstance() 
+    {
+        if (self::$instance == NULL):
+            self::$instance = new self();
+        endif;
+    }
+
+    public function __construct()
     {
         $this->customField();
+        $this->fieldContato();
     }
 
     public function customField()
@@ -21,7 +34,22 @@ class acfFields {
             ->setLocation('post_type', '==', 'page');
 
         add_action('acf/init', function() use ($banner) {
-        acf_add_local_field_group($banner->build());
+            acf_add_local_field_group($banner->build());
+        });
+    }
+
+    public function fieldContato(){
+        $banner = new FieldsBuilder('banner');
+        $banner
+            ->addText('title')
+            ->addWysiwyg('content')
+            ->addImage('background_image')
+            ->addRepeater('slides')
+            ->addWysiwyg('content')
+            ->setLocation('post_type', '==', 'contato');
+
+        add_action('acf/init', function() use ($banner) {
+            acf_add_local_field_group($banner->build());
         });
     }
 }

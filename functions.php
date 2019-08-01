@@ -9,7 +9,7 @@ require 'vendor/autoload.php';
 //include ('third_plugins/advanced-custom-fields/acf.php');
 
 //Carregando helpers
-new Helpers\acfFields;
+use Helpers\acfFields;
 new Helpers\acfMissing;
 
 //Carregando bibliotecas
@@ -49,6 +49,9 @@ class Functions
 
         //Adicionando Filtros
         $this->addFilters();
+
+        //Ativando Custom Post-Types 
+        acfFields::getInstance();
     }
 
     /**

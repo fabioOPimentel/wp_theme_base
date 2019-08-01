@@ -16,7 +16,6 @@ namespace Cpts;
 
 require_once __DIR__ . '../../security.php';
 
-use StoutLogic\AcfBuilder\FieldsBuilder;
 use Library\PostTypes;
 
 class ContatoPostType
@@ -38,26 +37,10 @@ class ContatoPostType
         ));
         $contato->setColumnsDisplay(array('test_text' => 'metabox'));
         $contato->setSortable(array('test_text'=>'Test Text'));
-        add_action('acf/init', array($this, 'customFields'));
     }
 
     public function contatoPostTypeActivation()
     {
         flush_rewrite_rules();
     }
-
-    public function customFields(){
-        $banner = new FieldsBuilder('banner');
-        $banner
-            ->addText('title')
-            ->addWysiwyg('content')
-            ->addImage('background_image')
-            ->addRepeater('slides')
-            ->addWysiwyg('content')
-            ->setLocation('post_type', '==', 'contato');
-
-        acf_add_local_field_group($banner->build());
-    }
-
-
 }
