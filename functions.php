@@ -5,9 +5,6 @@ require_once 'functions/security.php';
 //Carregando autoloader do composer
 require 'vendor/autoload.php';
 
-//plugins de terceiros
-//include ('third_plugins/advanced-custom-fields/acf.php');
-
 //Carregando helpers
 use Helpers\acfFields;
 new Helpers\acfMissing;

@@ -2,8 +2,6 @@
 
 namespace Library;
 
-require_once __DIR__ . '../../security.php';
-
 class PostTypes
 {
     private $post_type;
@@ -261,6 +259,8 @@ class PostTypes
 
         if(isset($this->useTax)):
             register_taxonomy($this->slug.'_category', $this->post_type, $taxonomy_category_args);
+            add_action('restrict_manage_posts', array($this, 'FilterPostTypeByTaxonomy'));
+	        add_filter('parse_query', array($this, 'ConvertIdToTermInQuery'));
         endif;
     }
 
@@ -284,7 +284,8 @@ class PostTypes
                     if ($category_list = get_the_term_list($post_id, $name, '', ', ', '')):
                         echo $category_list;
                     else:
-                        echo __('Vazio', $this->post_type);
+                        if($custom_columns == $name)
+                            echo __('Vazio', $this->post_type);
                     endif;
                 endif;
             endforeach;
@@ -300,5 +301,37 @@ class PostTypes
         endif;
         return $custom_columns;
     }
+
+    public function FilterPostTypeByTaxonomy() 
+    {
+		global $typenow;
+		$post_type = $this->post_type;
+        $taxonomy  = $this->slug.'_category';
+		if ($typenow == $post_type) {
+			$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+			$info_taxonomy = get_taxonomy($taxonomy);
+			wp_dropdown_categories(array(
+				'show_option_all' => __("Todoas as categorias"),
+				'taxonomy'        => $taxonomy,
+				'name'            => $taxonomy,
+				'orderby'         => 'name',
+				'selected'        => $selected,
+				'show_count'      => true,
+				'hide_empty'      => true,
+			));
+		};
+	}
+
+    public function ConvertIdToTermInQuery($query) 
+    {
+		global $pagenow;
+		$post_type = $this->post_type;
+		$taxonomy  = $this->slug.'_category';
+		$q_vars    = &$query->query_vars;
+		if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+			$term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+			$q_vars[$taxonomy] = $term->slug;
+		}
+	}
 
 }
