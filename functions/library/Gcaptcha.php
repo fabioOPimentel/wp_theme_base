@@ -2,7 +2,7 @@
 
 namespace Library;
 
-require_once __DIR__ . '../../security.php';
+if ( !defined( 'ABSPATH' ) ) { exit; };
 
 class Gcaptcha 
 {

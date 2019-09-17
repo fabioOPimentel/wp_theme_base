@@ -2,6 +2,8 @@
 
 namespace Library;
 
+if ( !defined( 'ABSPATH' ) ) { exit; };
+
 class PostTypes
 {
     private $post_type;

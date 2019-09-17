@@ -1,6 +1,5 @@
-<?php require_once 'functions/security.php'; ?>
+<?php if ( !defined( 'ABSPATH' ) ) { exit; }; ?>
 </section>
 <?php wp_footer(); ?>
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 </body>
 </html>

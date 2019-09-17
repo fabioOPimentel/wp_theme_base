@@ -1,5 +1,4 @@
-<?php require_once 'functions/security.php' ?>
+<?php if ( !defined( 'ABSPATH' ) ) { exit; }; ?>
 <?php get_header(); ?>
 
-<?php
-get_footer();
+<?php get_footer();

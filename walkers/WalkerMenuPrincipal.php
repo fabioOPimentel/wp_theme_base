@@ -1,7 +1,7 @@
 <?php
 namespace Walkers;
 
-require_once __DIR__.'\..\functions\security.php';
+if ( !defined( 'ABSPATH' ) ) { exit; };
 
 class WalkerMenuPrincipal extends \Walker_Nav_Menu
 {  

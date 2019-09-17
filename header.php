@@ -1,4 +1,4 @@
-<?php require_once 'functions/security.php' ?>
+<?php if ( !defined( 'ABSPATH' ) ) { exit; }; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>

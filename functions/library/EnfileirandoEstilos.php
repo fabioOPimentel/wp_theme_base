@@ -2,7 +2,7 @@
 
 namespace Library;
 
-require_once __DIR__ . '../../security.php';
+if ( !defined( 'ABSPATH' ) ) { exit; };
 
 class EnfileirandoEstilos
 {
@@ -25,15 +25,16 @@ class EnfileirandoEstilos
         wp_enqueue_script('lozad', get_template_directory_uri() . '/node_modules/lozad/dist/lozad.js', array(), '', true);
         wp_enqueue_script('slick', get_template_directory_uri() . '/node_modules/slick-carousel/slick/slick.js', array(), '', true);
         wp_enqueue_script('template-js', get_template_directory_uri() . '/assets/js/template.js', array(), '', true);
+        $this->expecificandoPagina('page-with-captha',false,'recaptcha-API','https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit',null);
     }
     
     private function expecificandoPagina($page,$style,$nome,$endereco,$versao)
     {
         if(is_page($page)):
             if($style == true):
-                wp_enqueue_style($nome, get_template_directory_uri() . $endereco, array(), $versao);
+                wp_enqueue_style($nome, $endereco, array(), $versao);
             else:
-                wp_enqueue_script($nome, get_template_directory_uri() . $endereco, array(), $versao, true);
+                wp_enqueue_script($nome, $endereco, array(), $versao, true);
             endif;
         endif;
     }
