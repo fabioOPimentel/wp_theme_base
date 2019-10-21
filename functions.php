@@ -74,6 +74,8 @@ class Functions
 
         add_action( 'admin_menu', array($this, 'removeMenuItens'));
 
+        add_action( 'wp_enqueue_scripts', array($this,'ScriptsBaseURL' ));
+
         //add_action( 'login_enqueue_scripts', array($this, 'myLoginLogo' ));
 
         //***************************
@@ -160,6 +162,13 @@ class Functions
     static function wp_html_compression_finish($html) 
     {
         return new WP_HTML_Compression($html);
+    }
+
+    public function ScriptsBaseURL()
+    {
+        wp_localize_script( 'template-js', 'baseUrl', array(
+            'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
+        ) );
     }
 
     public function myLoginLogo() 
