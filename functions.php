@@ -85,6 +85,10 @@ class Functions
         /* Enviando Contatos */
         add_action("wp_ajax_nopriv_enviar_contato",array(new EnviandoContato, 'sendContactForm'));
         add_action("wp_ajax_enviar_contato", array(new EnviandoContato, 'sendContactForm'));
+        
+        /* Enviando Contatos com anexo*/
+        add_action("wp_ajax_nopriv_enviar_contato_anexo",array(new EnviandoContato, 'sendContactFormAtt'));
+        add_action("wp_ajax_enviar_contato_anexo", array(new EnviandoContato, 'sendContactFormAtt'));
 
         /* Verificando Captcha */
         add_action("wp_ajax_nopriv_gCaptcha",array(new Gcaptcha, 'verifyCaptcha'));
@@ -112,6 +116,21 @@ class Functions
         // add_filter('use_block_editor_for_post_type', function ($is_enabled){
         //     return $this->disableGutembergToPageById($is_enabled, 31);
         // }, 10, 2);
+        
+        //Desabilitando Blocos especificos do gutemberg
+        // add_filter('allowed_block_types', function (){
+        //     global $post; 
+        //     $allowed_blocks = array(
+        //         'core/embed',
+        //         'core-embed/youtube',
+        //         'core-embed/twitter',
+        //         'core-embed/facebook',
+        //         'core-embed/instagram',
+        //         'core-embed/wordpress'
+        //     );
+        //     $posttype = 'videos';
+        //     return $this->allowedBlockTypes($allowed_blocks, $post, $posttype);
+        // }, 10, 2);
     }
 
     public function disableGutembergToPageById($is_enabled, $pageID)
@@ -121,6 +140,24 @@ class Functions
         
         return $is_enabled;
         
+    }
+
+    /**
+     * allowedBlockTypes habilita um ou mais blocos para um posttype específico
+     * acesse para ver a lista de blocos: https://rudrastyh.com/gutenberg/remove-default-blocks.html
+     *
+     * @param [array] $allowed_blocks
+     * @param [global] $post
+     * @param [string] $posttype
+     * @return void
+     */
+    public function allowedBlockTypes($allowed_blocks, $post, $posttype)
+    {
+        
+        if( $post->post_type === $posttype ) {
+            return $allowed_blocks;
+        }
+       return true;
     }
 
     /**

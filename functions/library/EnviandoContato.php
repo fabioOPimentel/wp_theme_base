@@ -15,18 +15,67 @@ class EnviandoContato
         $all_fields = $this->getFields();
         $are_all_fields_ok = $this->areAllFieldsOk($all_fields);
 
-        if (!$are_all_fields_ok) {
-            echo $this->getStatusMessage('error')->scalar;
-            die();
+        if ( 
+            ! isset( $_POST['security_contact'] ) 
+            || ! wp_verify_nonce( $_POST['security_contact'], 'contato_seguro' ) 
+        ) {
+         
+            echo json_encode(
+                [
+                    'message' => 'Erro ao enviar mensagem. Tente novamente mais tarde.',
+                    'status' => 'error'
+                ]
+            );
+           die;
+         
+        } else {
+            if (!$are_all_fields_ok) {
+                echo $this->getStatusMessage('error')->scalar;
+            }
+            elseif (!$this->messageSent($all_fields)) {
+                echo $this->getStatusMessage('error_sent')->scalar;
+            }
+            else{
+                echo $this->getStatusMessage('success')->scalar;
+            }
+            die;
         }
+    }
 
-        if (!$this->messageSent($all_fields)) {
-            echo $this->getStatusMessage('error_sent')->scalar;
-            die();
+    public function sendContactFormAtt()
+    {
+        $all_fields = $this->getFields();
+        $are_all_fields_ok = $this->areAllFieldsOk($all_fields);
+        $file_upload = $this->filterAttachment('arquivo',array("jpg", "pdf"),2097152);
+
+        if ( 
+            ! isset( $_POST['security_contact'] ) 
+            || ! wp_verify_nonce( $_POST['security_contact'], 'contato_seguro' ) 
+        ) {
+         
+            echo json_encode(
+                [
+                    'message' => 'Erro ao enviar mensagem. Tente novamente mais tarde.',
+                    'status' => 'error'
+                ]
+            );
+           die;
+         
+        } else {
+            if (!$are_all_fields_ok) {
+                echo $this->getStatusMessage('error')->scalar;
+            }
+            elseif (!$file_upload) {
+                echo $this->getStatusMessage('error_sent')->scalar;
+            }
+            elseif (!$this->messageSent($all_fields,$file_upload)) {
+                echo $this->getStatusMessage('error_sent')->scalar;
+            }
+            else{
+                echo $this->getStatusMessage('success')->scalar;
+            }
+            die;
         }
-
-        echo $this->getStatusMessage('success')->scalar;
-        die();
     }
 
     private function getFields()
@@ -127,37 +176,37 @@ class EnviandoContato
         );
     }
 
-    private function messageSent($fields)
+    private function messageSent($fields,$file=null)
     {
 
         $mail = new PHPMailer;
+
         $nome = $fields['nome']['value'];
         $email = $fields['email']['value'];
-        $dest = $fields['destinatario']['value'];
-        $prod = $fields['produto']['value'];
-        $tel = $fields['tel']['value'];
-        $msg = $fields['msg']['value'];
 
-
-        $mail->SMTPDebug  =  0 ;
+        $mail->SMTPDebug  = 0;
         $mail->IsSMTP(); //Defina que será SMTP 
         $mail->Host = ''; //Endereço do servidor SMTP
         $mail->SMTPAuth = true; //Usar autenticação SMTP (opcional)
         $mail->Username = ''; //Usuario do servidor SMTP
         $mail->Password = ''; //Senha do servidor SMTP
-        $mail->SMTPSecure = 'ssl'; //Tipo de encriptação
-        $mail->Port = 465;
+        //$mail->SMTPSecure = 'tls'; //Tipo de encriptação
+        $mail->Port = 587;
 
         //Defina o remetente
-        $mail->setFrom('', "Contato Site"); //Seu email e nome
+        $mail->setFrom('', ''); //Seu email e nome
         //Defina destinatario(s)
-        $mail->addAddress($dest); //Email destinatario
+        $mail->addAddress(''); //Email Homologação
         $mail->addReplyTo($email); //Email para resposta
 
         $mail->isHTML(true); //Define se o email é HTML
         $mail->CharSet = 'utf-8'; // Charset da mensagen (opcional)
 
         $mail->Subject = 'Contato pelo Site'; //Define o assunto
+
+        if($file)
+            $mail->addAttachment($file['field_tmp']['value'],$file['field_name']['value']);
+            
         $mail->Body = "<table>
                             <thead>
                                 <tr>
@@ -171,10 +220,6 @@ class EnviandoContato
                                     <td>
                                         <b>Nome:</b> {$nome}<br>
                                         <b>Email:</b> {$email}<br>
-                                        <b>Telefone:</b> {$tel}<br>
-                                        <b>Produto:</b> {$prod}<br>
-                                        <br>
-                                        <b>Mensagem:</b> {$msg}
                                     </td>
                                 </tr>
                             </tbody>

@@ -48,7 +48,7 @@ class ThemeCustomize
 		// register our custom settings
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
 		// Scripts for Preview
-		add_action( 'customize_preview_init', array( $this, 'customize_preview_js' ) );
+		//add_action( 'customize_preview_init', array( $this, 'customize_preview_js' ) );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class ThemeCustomize
 		) );
 		
 		$wp_customize->add_setting(
-			'ESDEP_icon',
+			'site_icon',
 			array(
 				'type'       => 'option',
 				'capability' => 'manage_options',
@@ -99,7 +99,7 @@ class ThemeCustomize
 		);
         
         $wp_customize->add_setting(
-			'logo_esdep',
+			'logo_teste',
 			array(
 				'type'       => 'option',
 				'capability' => 'manage_options',
@@ -109,7 +109,7 @@ class ThemeCustomize
 		$wp_customize->add_control( 
             new \WP_Customize_Cropped_Image_Control( 
                 $wp_customize, 
-                'logo_esdep',
+                'logo_teste',
 				array(
 					'label'         => __( 'Logo ESDEP' ),
 					'section'       => $this->option_key . '_rewrite_url',
@@ -129,38 +129,33 @@ class ThemeCustomize
 					),
 				)
 			)
-        );
+		);
+		
+		// create custom section for footer information
+		$wp_customize->add_section( $this->option_key . '_rodape_', array(
+			'title'    => esc_attr__( 'Rodapé'),
+			'priority' => 35,
+		) );
 
-        $wp_customize->add_setting(
-			'logo_defensoria',
+		$wp_customize->add_setting(
+			'teste',
 			array(
 				'type'       => 'option',
 				'capability' => 'manage_options',
-				'transport'  => 'postMessage', // Previewed with JS in the Customizer controls window.
 			)
-        );
-		$wp_customize->add_control( 
-            new \WP_Customize_Cropped_Image_Control( 
-                $wp_customize, 
-                'logo_defensoria',
-				array(
-					'label'         => __( 'Logo Defensoria' ),
-					'section'       => $this->option_key . '_rewrite_url',
-					'priority'      => 8,
-					'height'        => 60,
-					'width'         => 158,
-					'flex_height'   => true,
-					'flex_width'    => true,
-					'button_labels' => array(
-						'select'       => __( 'Select logo' ),
-						'change'       => __( 'Change logo' ),
-						'remove'       => __( 'Remove' ),
-						'default'      => __( 'Default' ),
-						'placeholder'  => __( 'No logo selected' ),
-						'frame_title'  => __( 'Select logo' ),
-						'frame_button' => __( 'Choose logo' ),
-					),
-				)
+		);
+		/**
+		 * Control type. Core controls include 'text', 'checkbox',
+		* 'textarea', 'radio', 'select', and 'dropdown-pages'. Additional
+		* input types such as 'email', 'url', 'number', 'hidden', and
+		* 'date' are supported implicitly. Default 'text'.
+		 */
+		$wp_customize->add_control(
+			'teste',
+			array(
+				'label'   => __( 'Número da Central de Atendimento' ),
+				'section' => $this->option_key . '_rodape_',
+				'type' => 'text'
 			)
 		);
 	}
