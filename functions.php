@@ -204,6 +204,7 @@ class Functions
     public function ScriptsBaseURL()
     {
         wp_localize_script( 'template-js', 'baseUrl', array(
+            'templateUrl' => get_template_directory_uri(),
             'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
         ) );
     }

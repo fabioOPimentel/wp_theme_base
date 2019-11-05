@@ -54,22 +54,22 @@ var testapp = new Vue({
             self.$http.post(loadmore_params.ajaxurl, formData).then(function (response) {
                 self.contatoStatus = response.body.status;
                 if(self.contatoStatus == 'success'){
-                    forms[0].reset();
-                    grecaptcha.reset(widgetId);
                     btn.removeClass('btn-info').addClass('btn-success');
                     btn.text('Enviado!');
                 }else if(self.contatoStatus == 'danger'){
-                    grecaptcha.reset(widgetId);
-                    self.formValidate = false;
                     btn.removeClass('btn-info').addClass('btn-danger');
                     btn.removeAttr("disabled");
                     btn.text('Erro ao enviar!');
                 }else{
-                    self.formValidate = false;
                     forms.addClass('was-validated');
                     btn.removeClass('btn-info').addClass('btn-warning');
                     btn.text('Corrija os campos!');
                 }
+
+                forms[0].reset();
+                grecaptcha.reset(widgetId);
+                self.formValidate = false;
+                self.recaptchaValidate = '';
 
                 setTimeout(function(){
                     btn.removeClass('btn-success');
@@ -110,8 +110,14 @@ var testapp = new Vue({
         },
     },
     mounted: function(){
-        const observer = lozad();
-        observer.observe();
+        lozad('.lozad', {
+            load: function (el) {
+                el.src = el.dataset.src;
+                el.onload = function () {
+                    el.classList.add('lazyfade')
+                }
+            }
+        }).observe();
     }
 });
 
