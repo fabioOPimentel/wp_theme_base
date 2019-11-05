@@ -8,6 +8,7 @@ require 'vendor/autoload.php';
 //Carregando helpers
 use Helpers\acfFields;
 new Helpers\acfMissing;
+new Helpers\kirkiMissing;
 
 //Carregando bibliotecas
 use Library\RegistrandoMenus;

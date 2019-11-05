@@ -30,7 +30,7 @@ class kirkiMissing
 
 	public function tp_notice_missing()
 	{
-		echo '<div class="notice notice-error notice-large"><div class="notice-title">'. $this->acf_notice_msg .'</div></div>';
+		echo '<div class="notice notice-error notice-large"><div class="notice-title">'. $this->kirki_notice_msg .'</div></div>';
 	}
 
 	public function tp_notice_frontend_missing()
