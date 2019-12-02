@@ -27,6 +27,10 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         array (
             'Helpers\\' => 8,
         ),
+        'F' => 
+        array (
+            'Filters\\' => 8,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -35,6 +39,10 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         'C' => 
         array (
             'Cpts\\' => 5,
+        ),
+        'A' => 
+        array (
+            'Actions\\' => 8,
         ),
     );
 
@@ -59,6 +67,10 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         array (
             0 => __DIR__ . '/../..' . '/functions/helpers',
         ),
+        'Filters\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/functions/filters',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -71,11 +83,14 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         array (
             0 => __DIR__ . '/../..' . '/functions/cpts',
         ),
+        'Actions\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/functions/actions',
+        ),
     );
 
     public static $classMap = array (
         'Cpts\\ContatoPostType' => __DIR__ . '/../..' . '/functions/cpts/ContatoPostType.php',
-        'Cpts\\PostTypes' => __DIR__ . '/../..' . '/functions/cpts/PostTypes.php',
         'Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
         'Doctrine\\Instantiator\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/ExceptionInterface.php',
         'Doctrine\\Instantiator\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/InvalidArgumentException.php',
@@ -84,9 +99,14 @@ class ComposerStaticInit4bdcea73c0c5c179bc6ffb6fa36acfda
         'Doctrine\\Instantiator\\InstantiatorInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/InstantiatorInterface.php',
         'Helpers\\acfFields' => __DIR__ . '/../..' . '/functions/helpers/acfFields.php',
         'Helpers\\acfMissing' => __DIR__ . '/../..' . '/functions/helpers/acfMissing.php',
+        'Helpers\\kirkiMissing' => __DIR__ . '/../..' . '/functions/helpers/kirkiMissing.php',
         'Library\\EnfileirandoEstilos' => __DIR__ . '/../..' . '/functions/library/EnfileirandoEstilos.php',
         'Library\\EnviandoContato' => __DIR__ . '/../..' . '/functions/library/EnviandoContato.php',
+        'Library\\EnviandoCustomContato' => __DIR__ . '/../..' . '/functions/library/EnviandoCustomContato.php',
+        'Library\\Gcaptcha' => __DIR__ . '/../..' . '/functions/library/Gcaptcha.php',
+        'Library\\PostTypes' => __DIR__ . '/../..' . '/functions/library/PostTypes.php',
         'Library\\RegistrandoMenus' => __DIR__ . '/../..' . '/functions/library/RegistrandoMenus.php',
+        'Library\\ThemeCustomize' => __DIR__ . '/../..' . '/functions/library/ThemeCustomize.php',
         'Library\\WpHtmlCompression' => __DIR__ . '/../..' . '/functions/library/WpHtmlCompression.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
         'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',

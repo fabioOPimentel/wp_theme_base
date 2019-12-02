@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Cpts\\ContatoPostType' => $baseDir . '/functions/cpts/ContatoPostType.php',
-    'Cpts\\PostTypes' => $baseDir . '/functions/cpts/PostTypes.php',
     'Doctrine\\Common\\Inflector\\Inflector' => $vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
     'Doctrine\\Instantiator\\Exception\\ExceptionInterface' => $vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/ExceptionInterface.php',
     'Doctrine\\Instantiator\\Exception\\InvalidArgumentException' => $vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/InvalidArgumentException.php',
@@ -16,9 +15,14 @@ return array(
     'Doctrine\\Instantiator\\InstantiatorInterface' => $vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator/InstantiatorInterface.php',
     'Helpers\\acfFields' => $baseDir . '/functions/helpers/acfFields.php',
     'Helpers\\acfMissing' => $baseDir . '/functions/helpers/acfMissing.php',
+    'Helpers\\kirkiMissing' => $baseDir . '/functions/helpers/kirkiMissing.php',
     'Library\\EnfileirandoEstilos' => $baseDir . '/functions/library/EnfileirandoEstilos.php',
     'Library\\EnviandoContato' => $baseDir . '/functions/library/EnviandoContato.php',
+    'Library\\EnviandoCustomContato' => $baseDir . '/functions/library/EnviandoCustomContato.php',
+    'Library\\Gcaptcha' => $baseDir . '/functions/library/Gcaptcha.php',
+    'Library\\PostTypes' => $baseDir . '/functions/library/PostTypes.php',
     'Library\\RegistrandoMenus' => $baseDir . '/functions/library/RegistrandoMenus.php',
+    'Library\\ThemeCustomize' => $baseDir . '/functions/library/ThemeCustomize.php',
     'Library\\WpHtmlCompression' => $baseDir . '/functions/library/WpHtmlCompression.php',
     'PHPMailer\\PHPMailer\\Exception' => $vendorDir . '/phpmailer/phpmailer/src/Exception.php',
     'PHPMailer\\PHPMailer\\OAuth' => $vendorDir . '/phpmailer/phpmailer/src/OAuth.php',

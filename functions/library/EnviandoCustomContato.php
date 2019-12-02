@@ -7,7 +7,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; };
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class EnviandoContato
+class EnviandoCustomContato
 {
 
     public function sendContactForm()

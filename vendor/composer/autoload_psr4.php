@@ -11,7 +11,9 @@ return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Library\\' => array($baseDir . '/functions/library'),
     'Helpers\\' => array($baseDir . '/functions/helpers'),
+    'Filters\\' => array($baseDir . '/functions/filters'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Cpts\\' => array($baseDir . '/functions/cpts'),
+    'Actions\\' => array($baseDir . '/functions/actions'),
 );
