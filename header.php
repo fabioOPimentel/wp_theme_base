@@ -11,9 +11,9 @@
         <script src='https://www.google.com/recaptcha/api.js'></script>
         <script type="text/javascript">
             var onloadCallback = function() {
-                grecaptcha.render('html_element', {
+                widgetId = grecaptcha.render('html_element', {
                 'sitekey' : '[SITE_KEY]',
-                'callback' : testapp.correctCaptcha
+                'callback' : myapp.correctCaptcha
                 });
             };
         </script>

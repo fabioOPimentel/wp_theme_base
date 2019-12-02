@@ -30,6 +30,10 @@ class Functions
     
     private static $instance;
 
+    /** 
+     * Variaveis custom theme supports 
+     */
+
     public static function getInstance() 
     {
         if (self::$instance == NULL):
@@ -47,6 +51,9 @@ class Functions
 
         //Adicionando Filtros
         $this->addFilters();
+
+        //Registrando variaveis
+        $this->RegisterVars();
 
         //Ativando Custom Post-Types 
         acfFields::getInstance();
@@ -134,6 +141,11 @@ class Functions
         // }, 10, 2);
     }
 
+    public function RegisterVars()
+    {
+        
+    }
+
     public function disableGutembergToPageById($is_enabled, $pageID)
     {
         
@@ -202,6 +214,10 @@ class Functions
         return new WP_HTML_Compression($html);
     }
 
+    /**
+     * Declarando caminhos padrõs a serem acessados 
+     * por JavaScript 
+     */
     public function ScriptsBaseURL()
     {
         wp_localize_script( 'template-js', 'baseUrl', array(

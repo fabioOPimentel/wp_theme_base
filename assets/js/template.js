@@ -1,88 +1,82 @@
-var testapp = new Vue({
+var myapp = new Vue({
     el: '#main',
     data: {
-        contato: {
-            nome: '',
-            tel: '',
-            email: '',
-            msg: ''
-        },
+        formValidate: false,
+        recaptchaState: false,
+        isDisabled: false,
         recaptchaValidate: ''
     },
+    watch: {
+        formValidate(){
+            this.isDisabled = this.formDisabled();
+        },
+        recaptchaState(){
+            this.isDisabled = this.formDisabled();
+        }
+    },
     methods: {
-        sendContact: function () {
+        sendContact: function (e,action,btnid) {
             var self = this,
                 formData = new FormData(),
-                forms = $('.form-container'),
-                btn = $('.btn'),
-                curriculo = $('#curriculo')[0].files[0]
-                nonce = $('#security_contact').val();
+                forms = e.target,
+                btn = document.querySelector(btnid);
             
-            formData.append('nome', self.cadastro.nome);
-            formData.append('datan', self.cadastro.datan);
-            formData.append('tel', self.cadastro.tel);
-            formData.append('email', self.cadastro.email);
-            formData.append('crm', self.cadastro.crm);
-            formData.append('espec', self.cadastro.espec);
-            formData.append('rqe', self.cadastro.rqe);
-            formData.append('curriculo', curriculo);
-            formData.append('action', 'enviar_cadastro');
-            formData.append('security_contact', nonce);
+            var formData = new FormData(forms);
+            formData.append('action', action);
 
-            btn.attr("disabled", true);
+            btn.setAttribute("disabled", "");
 
-            if(forms[0].checkValidity() === false){
+            self.formIsValidForSend();
+
+            self.captchaIsValid();
+
+            self.formValidate = true;
+            btn.classList.remove(btnid)
+            btn.classList.add('btn-info');
+            btn.innerHTML = '<div class="loader loader-4" id="loader-4"><span></span><span></span><span></span></div>';
+
+            self.$http.post(baseUrl.ajaxurl, formData).then(function (response) {
+                self.contatoStatus = response.body.status;
+                if(self.contatoStatus == 'success'){
+                    btn.classList.remove('btn-info')
+                    btn.classList.add('btn-success');
+                    btn.innerText = 'Enviado!';
+                }else{
+                    btn.classList.remove('btn-info')
+                    btn.classList.add('btn-danger');
+                    btn.removeAttribute("disabled");
+                    btn.innerText = 'Erro ao enviar!';
+                }
+
+                forms.reset();
+                grecaptcha.reset(widgetId);
                 self.formValidate = false;
-                forms.addClass('was-validated');
-                return;
-            }
+                self.recaptchaState = false;
+                self.recaptchaValidate = '';
 
+                setTimeout(function(){
+                    btn.classList.remove('btn-success');
+                    btn.classList.remove('btn-danger');
+                    btn.classList.remove('btn-warning');
+                    btn.classList.add(btnid);
+                    btn.innerText = 'Enviar';
+                }, 2000);
+            });
+        },
+        captchaIsValid: function(){
             if (self.recaptchaValidate !== 'Recaptcha Valido') {
                 $('#html_element div div iframe').css({
                     'border': '1px solid #dc3545',
                 });
                 setTimeout(function(){ 
-                    btn.removeAttr("disabled"); 
+                    btn.removeAttribute("disabled"); 
                 }, 200);
                 return;
             }
-
-            self.formValidate = true;
-            btn.removeClass('btn-amarelo').addClass('btn-info');
-            btn.html('<div class="loader loader-4" id="loader-4"><span></span><span></span><span></span></div>');
-
-            self.$http.post(loadmore_params.ajaxurl, formData).then(function (response) {
-                self.contatoStatus = response.body.status;
-                if(self.contatoStatus == 'success'){
-                    btn.removeClass('btn-info').addClass('btn-success');
-                    btn.text('Enviado!');
-                }else if(self.contatoStatus == 'danger'){
-                    btn.removeClass('btn-info').addClass('btn-danger');
-                    btn.removeAttr("disabled");
-                    btn.text('Erro ao enviar!');
-                }else{
-                    forms.addClass('was-validated');
-                    btn.removeClass('btn-info').addClass('btn-warning');
-                    btn.text('Corrija os campos!');
-                }
-
-                forms[0].reset();
-                grecaptcha.reset(widgetId);
-                self.formValidate = false;
-                self.recaptchaValidate = '';
-
-                setTimeout(function(){
-                    btn.removeClass('btn-success');
-                    btn.removeClass('btn-danger');
-                    btn.removeClass('btn-warning');
-                    btn.addClass('btn-amarelo');
-                    btn.text('Enviar');
-                }, 2000);
-            });
         },
         correctCaptcha: function(response){
             var self = this,
-                ajaxUrl = loadmore_params.ajaxurl;
+                ajaxUrl = baseUrl.ajaxurl;
             return new Promise(function(resolve, reject) { 
                 $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
                     self.geoip = data.geoplugin_request;
@@ -94,20 +88,43 @@ var testapp = new Vue({
                 formData.append('action', 'gCaptcha');
                 self.$http.post(ajaxUrl, formData).then(function (data){
                     self.recaptchaValidate = data.body.msg;
+                    self.recaptchaState = true;
                 });
                 
                 resolve();
             })
         },
+        formDisabled(){
+            return this.formValidate && this.recaptchaState;
+        },
         fildIsValid: function(e) {
             var self = this;
-            var forms = $(e);
-            if(forms[0].checkValidity() === false){
+            var forms = e.target;
+            if(forms.checkValidity() === false){
                 self.formValidate = false;
             }else{
                 self.formValidate = true;
             }
         },
+        formIsValid: function (e) {
+            self = this;
+            var form = e.currentTarget;
+
+            if (form.checkValidity() === false) {
+                form.classList.add('was-validated')
+                self.formValidate = false;
+            } else {
+                form.classList.remove('was-validated')
+                self.formValidate = true;
+            }
+        },
+        formIsValidForSend(forms) {
+            if(forms.checkValidity() === false){
+                self.formValidate = false;
+                forms.classList.add('was-validated');
+                return;
+            }
+        }
     },
     mounted: function(){
         lozad('.lozad', {

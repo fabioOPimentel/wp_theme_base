@@ -13,6 +13,7 @@ class EnviandoContato
     public function sendContactForm()
     {
         $all_fields = $this->getFields();
+        $are_all_fields_ok = $this->areAllFieldsOk($all_fields);
 
         if ( 
             ! isset( $_POST['security_contact'] ) 
@@ -28,7 +29,10 @@ class EnviandoContato
            die;
          
         } else {
-            if (!$this->messageSent($all_fields)) {
+            if (!$are_all_fields_ok) {
+                echo $this->getStatusMessage('error')->scalar;
+            }
+            elseif (!$this->messageSent($all_fields)) {
                 echo $this->getStatusMessage('error_sent')->scalar;
             }
             else{
@@ -58,7 +62,10 @@ class EnviandoContato
            die;
          
         } else {
-            if (!$file_upload) {
+            if (!$are_all_fields_ok) {
+                echo $this->getStatusMessage('error')->scalar;
+            }
+            elseif (!$file_upload) {
                 echo $this->getStatusMessage('error_sent')->scalar;
             }
             elseif (!$this->messageSent($all_fields,$file_upload)) {
@@ -73,23 +80,33 @@ class EnviandoContato
 
     private function getFields()
     {
-        $fields = array();
-
-        foreach($_POST as $key=>$value){
-            if(
-                $key !== 'security_contact' &&
-                $key !== '_wp_http_referer' &&
-                $key !== 'g-recaptcha-response' &&
-                $key !== 'action'
-            ){
-                if(is_array($value)){
-                    $fields[$key] = $value;
-                }else{
-                    $fields[$key] = ($key == 'mensagem') ? wp_kses($value, 'br') : wp_strip_all_tags(trim($value));
-                } 
-            }
-            
-        }
+        $fields = array(
+            'nome' => array(
+                'value' => sanitize_text_field(filter_input(INPUT_POST, 'nome')),
+                'is_required' => true
+            ),
+            'produto' => array(
+                'value' => sanitize_text_field(filter_input(INPUT_POST, 'produto')),
+                'is_required' => false
+            ),
+            'email' => array(
+                'value' => sanitize_email(filter_input(INPUT_POST, 'email')),
+                'is_required' => true
+            ),
+            'destinatario' => array(
+                'value' => sanitize_email(filter_input(INPUT_POST, 'destinatario')),
+                'is_required' => true
+            )
+            ,
+            'tel' => array(
+                'value' => $this->validTel(filter_input(INPUT_POST, 'tel')),
+                'is_required' => true
+            ),
+            'msg' => array(
+                'value' => wp_kses(filter_input(INPUT_POST, 'msg'), 'br'),
+                'is_required' => true
+            )
+        );
 
         return $fields;
     }
@@ -127,7 +144,7 @@ class EnviandoContato
     private function areAllFieldsOk($fields)
     {
         foreach ($fields as $field) {
-            if ($this->isFieldEmpty($field)) {
+            if ($this->isFieldRequiredEmpty($field)) {
                 return false;
             }
         }
@@ -144,9 +161,9 @@ class EnviandoContato
         }
     }
 
-    private function isFieldEmpty($field)
+    private function isFieldRequiredEmpty($field)
     {
-        return empty($field['value']);
+        return $field['is_required'] && empty($field['value']);
     }
 
     private function getStatusMessage($status = 'success')
@@ -162,36 +179,30 @@ class EnviandoContato
     private function getStatusMessageSuccess()
     {
         return json_encode(
-            [
-                'message' => "Email enviado com sucesso!",
-                'status' => 'success'
-            ]
+                [
+                    'message' => "Email enviado com sucesso!",
+                    'status' => 'success'
+                ]
         );
-    }
-
-    private function unslug($slugs)
-    {
-        $slugs = str_replace('-'," ",$slugs);
-        return $result = ucfirst($slugs);
     }
 
     private function getStatusMessageError()
     {
         return json_encode(
-            [
-                'message' => 'Preencha todos os campos corretamenta!',
-                'status' => 'warning'
-            ]
+                [
+                    'message' => 'Preencha todos os campos corretamenta!',
+                    'status' => 'warning'
+                ]
         );
     }
 
     private function getStatusMessageErrorSent()
     {
         return json_encode(
-            [
-                'message' => 'Erro ao enviar mensagem. Tente novamente mais tarde.',
-                'status' => 'danger'
-            ]
+                [
+                    'message' => 'Erro ao enviar mensagem. Tente novamente mais tarde.',
+                    'status' => 'error'
+                ]
         );
     }
 
@@ -200,23 +211,23 @@ class EnviandoContato
 
         $mail = new PHPMailer;
 
-        $mail->SMTPDebug  =  0;
+        $nome = $fields['nome']['value'];
+        $email = $fields['email']['value'];
+
+        $mail->SMTPDebug  = 0;
         $mail->IsSMTP(); //Defina que será SMTP 
-        $mail->Host = 'smtp.gmail.com'; //Endereço do servidor SMTP
+        $mail->Host = ''; //Endereço do servidor SMTP
         $mail->SMTPAuth = true; //Usar autenticação SMTP (opcional)
-        $mail->Username = 'taointerativa@gmail.com'; //Usuario do servidor SMTP
-        $mail->Password = 't@ointerativ@2019!'; //Senha do servidor SMTP
-        $mail->SMTPSecure = 'ssl'; //Tipo de encriptação
-        $mail->Port = 465;
+        $mail->Username = ''; //Usuario do servidor SMTP
+        $mail->Password = ''; //Senha do servidor SMTP
+        //$mail->SMTPSecure = 'tls'; //Tipo de encriptação
+        $mail->Port = 587;
 
         //Defina o remetente
-        $mail->setFrom('taointerativa@gmail.com', $fields['assunto']); //Seu email e nome
+        $mail->setFrom('', ''); //Seu email e nome
         //Defina destinatario(s)
-        foreach($fields['destinatario'] as $dest){
-            $mail->addAddress(sanitize_email($dest));
-        }
-        
-        $mail->addReplyTo( sanitize_email($fields['email']) ); //Email para resposta
+        $mail->addAddress(''); //Email Homologação
+        $mail->addReplyTo($email); //Email para resposta
 
         $mail->isHTML(true); //Define se o email é HTML
         $mail->CharSet = 'utf-8'; // Charset da mensagen (opcional)
@@ -226,14 +237,23 @@ class EnviandoContato
         if($file)
             $mail->addAttachment($file['field_tmp']['value'],$file['field_name']['value']);
             
-        $content = "<table><thead><tr><th>Contado Pelo site</th></tr></thead><tbody><tr><td>";
-        foreach($fields as $key => $value){
-            if($key != 'destinatario')
-                $content .= "<strong>".$this->unslug($key).":</strong> $value<br><br>";
-        }
-        $content .= "</td></tr></tbody></table>";
-
-        $mail->Body = $content;
+        $mail->Body = "<table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Contado Pelo site
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Nome:</b> {$nome}<br>
+                                        <b>Email:</b> {$email}<br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>";
 
         return $mail->Send();
     }
