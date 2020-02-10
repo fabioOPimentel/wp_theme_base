@@ -1,4 +1,4 @@
-var mixin = {
+var formTab = {
     data: function () {
         return {
             currentTab: 0

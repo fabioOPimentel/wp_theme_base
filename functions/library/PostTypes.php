@@ -176,6 +176,17 @@ class PostTypes
     }
 
     /**
+     * getPostType
+     * 
+     * Retorna uma string com o post-type
+     * 
+     */
+    public function getPostType()
+    {
+        return $this->post_type;
+    }
+
+    /**
      * addImageSize
      * 
      * Define um formato de corte para uploads
