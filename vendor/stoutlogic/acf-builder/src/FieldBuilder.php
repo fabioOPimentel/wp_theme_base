@@ -32,11 +32,15 @@ namespace StoutLogic\AcfBuilder;
  * @method FieldBuilder addGoogleMap(string $name, array $args = [])
  * @method FieldBuilder addLink(string $name, array $args = [])
  * @method FieldBuilder addTab(string $label, array $args = [])
+ * @method FieldBuilder addRange(string $name, array $args = [])
  * @method FieldBuilder addMessage(string $label, string $message, array $args = [])
  * @method GroupBuilder addGroup(string $name, array $args = [])
+ * @method GroupBuilder endGroup()
  * @method RepeaterBuilder addRepeater(string $name, array $args = [])
+ * @method Builder endRepeater()
  * @method FlexibleContentBuilder addFlexibleContent(string $name, array $args = [])
  * @method FieldsBuilder addLayout(string|FieldsBuilder $layout, array $args = [])
+ * @method LocationBuilder setLocation(string $param, string $operator, string $value)*
  */
 class FieldBuilder extends ParentDelegationBuilder implements NamedBuilder
 {
@@ -156,6 +160,16 @@ class FieldBuilder extends ParentDelegationBuilder implements NamedBuilder
     }
 
     /**
+     * Will set field's label.
+     * @param string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        return $this->setConfig('label', $label);
+    }
+
+    /**
      * Will set field's instructions.
      * @param string $instructions
      * @return $this
@@ -248,7 +262,7 @@ class FieldBuilder extends ParentDelegationBuilder implements NamedBuilder
     public function setAttr($name, $value = null)
     {
         $wrapper = $this->getWrapper();
-        
+
         // set attribute.
         $wrapper[$name] = $value;
 
