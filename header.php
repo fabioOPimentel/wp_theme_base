@@ -3,7 +3,10 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <?php if(bloginfo('description')): ?>
+            <meta name="description" content="<?=esc_attr(bloginfo('description'))?>">
+        <?php endif ?>
         <?php wp_head() ?>
         <title>Teme Base</title>
 
