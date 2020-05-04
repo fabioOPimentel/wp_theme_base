@@ -22,6 +22,7 @@ use Library\ThemeCustomize;
 //Carregando Custom Post-Type
 new Cpts\ContatoPostType;
 
+define('ROOT', get_template_directory_uri());
 
 class Functions 
 {

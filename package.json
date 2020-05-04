@@ -9,6 +9,7 @@
   "author": "Fábio O. Pimentel",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "font-awesome": "^4.7.0",
     "intersection-observer": "^0.5.1",
@@ -18,7 +19,6 @@
     "popper.js": "^1.16.1",
     "slick-carousel": "^1.8.1",
     "vue": "^2.5.17",
-    "vue-resource": "^1.5.1",
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {

@@ -4,6 +4,8 @@ namespace Library;
 
 if ( !defined( 'ABSPATH' ) ) { exit; };
 
+use Kirki;
+
 /**
  * wp-includes/class-wp-customize-manager para emxmplos
  */
@@ -47,7 +49,8 @@ class ThemeCustomize
 		$this->theme_key  = $args[ 'theme_key' ];
 		$this->option_key = $this->theme_key . '_theme_options';
 		// register our custom settings
-		add_action( 'customize_register', array( $this, 'customize_register' ) );
+		add_action( 'customize_register', [ $this, 'CustomizeRegister' ] );
+		add_action( 'init', [$this, 'KirkFields'] );
 
 	}
 
@@ -58,32 +61,33 @@ class ThemeCustomize
 	 *
 	 * @return  void
 	 */
-	public function customize_register( $wp_customize ) 
+	public function CustomizeRegister( $wp_customize ) 
 	{
-		/**
-		 * Control type. Core controls include 'text', 'checkbox',
-		* 'textarea', 'radio', 'select', and 'dropdown-pages'. Additional
-		* input types such as 'email', 'url', 'number', 'hidden', and
-		* 'date' are supported implicitly. Default 'text'.
-		 */
-
 		// defaults, import for live preview with js helper
 		$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
 		$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 		// ===== Custom Section =====
-		// Exemplo
-		// $wp_customize->add_section( $this->option_key . '_webmail_', array(
-		// 	'title'    => esc_attr__( 'Webmail'),
-		// 	'priority' => 33,
+		// Topo do site
+		// $wp_customize->add_section( $this->option_key . '_inicio_', array(
+		// 	'title'    => esc_attr__( 'Início'),
+		// 	'priority' => 30,
 		// ) );
-
-		// \Kirki::add_field( 'webmail', [
-		// 	'type'     => 'link',
-		// 	'settings' => 'webmail',
-		// 	'label'    => __( 'Webmail', 'kirki' ),
-		// 	'section'  => $this->option_key . '_webmail_',
+	}
+	
+	public function KirkFields()
+	{
+		// Topo do site
+		// Kirki::add_field( 'imagem_destaque', [
+		// 	'type'        => 'image',
+		// 	'settings'    => 'imagem_destaque',
+		// 	'label'       => esc_html__( 'Imagem de destaque', 'kirki' ),
+		// 	'description' => esc_html__( 'Defina a imagem de destaque para o topo', 'kirki' ),
+		// 	'section'     => $this->option_key . '_inicio_',
+		// 	'priority' => 10,
+		// 	'choices'     => [
+		// 		'save_as' => 'array',
+		// 	],
 		// ] );
-
 	}
 } // end class
