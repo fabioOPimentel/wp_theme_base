@@ -23,6 +23,12 @@ class Filters
     {
         //Insira seus filtros aqui
         add_filter( 'slug', array($this, 'slugfy') );
+
+        //Escapando HTMLS maliciosos/não permitidos de the_content
+        add_filter( 'the_content', function( $content ) {
+            return wp_kses_post( $content );
+        }, PHP_INT_MAX + 1 );
+        
         /** Disabilitando Gutemberg */
         // disabilitando para posts
         //add_filter('use_block_editor_for_post', '__return_false', 10);
