@@ -1,25 +1,27 @@
 /**
 * Paletas de cores
 */
+$bg-white: #fff;
+$bg-black: #000;
+
+/**
+* Importações
+*/
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins/_breakpoints";
 
 /**
 * Fontes
 */
 
 /**
-* Importações
-*/
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins/_breakpoints";
-
-/**
 * Z-index Position
 */
-$position_primary : 2000;
-$position_secundary: 1000;
-$position_terciary: 500;
-$last_position: 100;
+$first : 2000;
+$two: 1000;
+$three: 500;
+$last: 100;
 $belowall: -1;
 
 /**
@@ -59,4 +61,19 @@ $belowall: -1;
     }
 
     #{$property}: $value;
+}
+@include media-breakpoint-up(xs){
+    
+}
+@include media-breakpoint-up(sm){
+    
+}
+@include media-breakpoint-up(md){
+
+}
+@include media-breakpoint-up(lg){
+
+}
+@include media-breakpoint-up(xl){
+
 }

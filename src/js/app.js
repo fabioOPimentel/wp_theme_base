@@ -1,6 +1,18 @@
-var myapp = new Vue({
+/** Modules */
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+import 'intersection-observer' // Optional
+import Vue from 'vue';
+import axios from 'axios';
+
+/** Components */
+
+/** Styles */
+
+const app = new Vue({
     el: '#main',
-    data: {
+    components: {},
+    data:  {
         formValidate: false,
         recaptchaState: false,
         isDisabled: false,
@@ -124,9 +136,58 @@ var myapp = new Vue({
                 forms.classList.add('was-validated');
                 return;
             }
+        },
+        togglemenu(e) {
+            let element = e.currentTarget,
+                target = element.getAttribute('data-target'),
+                classname = element.getAttribute('data-classname'),
+                allelement = document.querySelectorAll(classname);
+
+            allelement.forEach((el) => {
+                el.classList.toggle('change');
+            })
+            document.querySelector(target).classList.toggle('change');
+            document.querySelector('.sla__the_content').classList.toggle('change');
+        },
+        siblingschanges(e) {
+            let el = e.target;
+            let brothers = el.parentNode.children;
+            for (let i = 0; i < brothers.length; i++) {
+                brothers[i].classList.remove('changed');
+            }
+            el.classList.add('changed');
+        },
+        loadmore (posttype,limit,text,e) {
+            let self = this;
+            let targetEl = e.target.parentElement.previousElementSibling;
+            let childCount = targetEl.childElementCount;
+
+            let formData = new FormData();
+            formData.append('posttype',posttype);
+
+            formData.append('tags',self.trabalhos_tags);
+            formData.append('orderby',self.trabalhos_order);
+            formData.append('offset',childCount);
+            formData.append('limit',limit);
+            formData.append('action', 'load_more');
+
+            e.target.innerHTML = '<div class="loader loader-4" id="loader-4"><span></span><span></span><span></span></div>';
+
+            axios
+                .post(baseUrl.ajaxurl, formData)
+                .then( function(response){
+                    if(response.data){
+                        targetEl.lastChild.insertAdjacentHTML('afterend',response.data);
+                        e.target.innerText = text;
+                    }else{
+                        e.target.innerText = 'Não há mais conteudo'
+                        e.target.setAttribute('disabled','disabled');
+                    }
+                });
+            
         }
     },
-    mounted: function(){
+    mounted() {
         lozad('.lozad', {
             load: function (el) {
                 el.src = el.dataset.src;
@@ -138,4 +199,4 @@ var myapp = new Vue({
     }
 });
 
-
+window.fieb = fieb;

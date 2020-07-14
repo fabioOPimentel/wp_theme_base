@@ -73,7 +73,8 @@ class Functions
         add_theme_support('custom-logo');
 
         //Iniciando theme support customizados
-        ThemeCustomize::getInstance();
+        if( class_exists( 'Kirki' ) )
+            ThemeCustomize::getInstance();
     }
 
     /**
@@ -176,7 +177,31 @@ class Functions
         $lastpage = esc_attr( get_pagenum_link($count) );
         if ( isset($echo) )
             echo $args['before_output'] . $echo . $args['after_output'];
-	}
+    }
+    
+    /**
+     * Pede ID em um vídeo do Youtube
+     *
+     * @param string $url
+     * @return mixed ID do Video ou FALSE se não encontrado
+     */
+    static public function getYoutubeIdFromUrl($url) 
+    {
+        $parts = parse_url($url);
+        if(isset($parts['query'])){
+            parse_str($parts['query'], $qs);
+            if(isset($qs['v'])){
+                return $qs['v'];
+            }else if(isset($qs['vi'])){
+                return $qs['vi'];
+            }
+        }
+        if(isset($parts['path'])){
+            $path = explode('/', trim($parts['path'], '/'));
+            return $path[count($path)-1];
+        }
+        return false;
+    }
 
 }
 

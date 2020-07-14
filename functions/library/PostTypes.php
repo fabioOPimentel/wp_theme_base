@@ -293,7 +293,9 @@ class PostTypes
         if(isset($this->columnsDisplay)):
             foreach($this->columnsDisplay as $name => $value):
                 if($value == 'metabox'):
-                    echo  get_post_meta( $post_id, $name, false )[0];
+                    if($custom_columns == $name){
+                        echo  get_post_meta( $post_id, $name, false )[0];
+                    };
                 elseif($value == 'category'):
                     if ($category_list = get_the_term_list($post_id, $name, '', ', ', '')):
                         echo $category_list;
@@ -301,6 +303,11 @@ class PostTypes
                         if($custom_columns == $name)
                             echo __('Vazio', $this->post_type);
                     endif;
+                elseif($value == 'datepicker'):
+                    if($custom_columns == $name){
+                        if(get_post_meta( $post_id, $name, false )[0])
+                            echo  date('d/m/Y', strtotime(get_post_meta( $post_id, $name, false )[0]));
+                    };
                 endif;
             endforeach;
         endif;
