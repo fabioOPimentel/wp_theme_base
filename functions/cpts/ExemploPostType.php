@@ -2,7 +2,7 @@
 
 /* -----------------------------------------------------------------------------------
 
-  Plugin Name: Contato Post Type
+  Plugin Name: Exemplo Post Type
   Plugin URI:
   Description: Adiciona dados a compo contato
   Version: 0.3
@@ -18,7 +18,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; };
 
 use Library\PostTypes;
 
-class ContatoPostType
+class ExemploPostType
 {
 
     public function __construct()

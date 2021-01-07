@@ -20,7 +20,7 @@ use Filters\Filters;
 use Library\ThemeCustomize;
 
 //Carregando Custom Post-Type
-new Cpts\ContatoPostType;
+new Cpts\ExemploPostType;
 
 define('ROOT', get_template_directory_uri());
 
@@ -201,6 +201,17 @@ class Functions
             return $path[count($path)-1];
         }
         return false;
+    }
+
+    public static function RgbToHex( string $rgb )
+    {
+        if ( strpos( $rgb, '#' ) === 0 ) {
+            return $rgb;
+        }
+
+        preg_match( '/^rgb?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i', $rgb, $by_color );
+
+        return sprintf( '#%02x%02x%02x', $by_color[1], $by_color[2], $by_color[3] );
     }
 
 }

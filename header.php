@@ -16,7 +16,7 @@
             var onloadCallback = function() {
                 widgetId = grecaptcha.render('html_element', {
                 'sitekey' : '[SITE_KEY]',
-                'callback' : myapp.correctCaptcha
+                'callback' : app.correctCaptcha
                 });
             };
         </script>

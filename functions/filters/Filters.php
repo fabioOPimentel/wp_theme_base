@@ -57,10 +57,10 @@ class Filters
         // }, 10, 2);
     }
 
-    public function disableGutembergToPageById($is_enabled, $pageID)
+    public function disableGutembergToPageById($is_enabled, array $pageID)
     {
         
-        if ( get_the_ID() === $pageID ) return false;
+        if ( in_array(get_the_ID(),$pageID) ) return false;
         
         return $is_enabled;
         

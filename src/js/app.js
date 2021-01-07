@@ -27,6 +27,36 @@ const app = new Vue({
         }
     },
     methods: {
+        increaseFontSize() {
+            let self = this;
+            self.fontSizeState < 4 &&
+                (document.querySelectorAll("p, span, a, h1, h2, h3, h4, h5, h6, li").forEach(function (t, e) {
+                    let a = parseInt(getComputedStyle(t).fontSize);
+                    (a = a + 1 + "px"),
+                    t.style.fontSize = a;
+                }), (self.fontSizeState += 1));
+        },
+        decreaseFontSize() {
+            let self = this;
+            -2 < self.fontSizeState &&
+                (document.querySelectorAll("p, span, a, h1, h2, h3, h4, h5, h6, li").forEach(function (t, e) {
+                    let a = parseInt(getComputedStyle(t).fontSize);
+                    (a = a - 1 + "px"),
+                    t.style.fontSize = a;
+                }), (self.fontSizeState -= 1));
+        },
+        toogleContrast(e) {
+
+            if(this.$cookies.isKey('highcontrast')){
+                this.$cookies.remove('highcontrast');
+                document.querySelector('body').classList.remove('contrast');
+            } else{
+                this.$cookies.set('highcontrast',"input_value",'7d');
+                document.querySelector('body').classList.add('contrast');
+            }
+            e.target.focus();
+
+        },
         sendContact: function (e,action,btnid) {
             var self = this,
                 formData = new FormData(),
@@ -47,8 +77,8 @@ const app = new Vue({
             btn.classList.add('btn-info');
             btn.innerHTML = '<div class="loader loader-4" id="loader-4"><span></span><span></span><span></span></div>';
 
-            self.$http.post(baseUrl.ajaxurl, formData).then(function (response) {
-                self.contatoStatus = response.body.status;
+            axios.post(baseUrl.ajaxurl, formData).then(function (response) {
+                self.contatoStatus = response.status;
                 if(self.contatoStatus == 'success'){
                     btn.classList.remove('btn-info')
                     btn.classList.add('btn-success');
@@ -90,16 +120,19 @@ const app = new Vue({
             var self = this,
                 ajaxUrl = baseUrl.ajaxurl;
             return new Promise(function(resolve, reject) { 
-                $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
-                    self.geoip = data.geoplugin_request;
-                });
+
+                axios
+                    .get('https://ipapi.co/json/')
+                    .then( function(response){
+                        self.geoip = response.ip;
+                    });
 
                 var formData = new FormData();
                 formData.append('response', response);
                 formData.append('remoteip', self.geoip);
                 formData.append('action', 'gCaptcha');
-                self.$http.post(ajaxUrl, formData).then(function (data){
-                    self.recaptchaValidate = data.body.msg;
+                axios.post(ajaxUrl, formData).then(function (data){
+                    self.recaptchaValidate = data.msg;
                     self.recaptchaState = true;
                 });
                 
@@ -173,7 +206,7 @@ const app = new Vue({
 
             e.target.innerHTML = '<div class="loader loader-4" id="loader-4"><span></span><span></span><span></span></div>';
 
-            axios
+            axioss
                 .post(baseUrl.ajaxurl, formData)
                 .then( function(response){
                     if(response.data){
@@ -185,7 +218,7 @@ const app = new Vue({
                     }
                 });
             
-        }
+        },
     },
     mounted() {
         lozad('.lozad', {
@@ -199,4 +232,4 @@ const app = new Vue({
     }
 });
 
-window.fieb = fieb;
+window.app = app;

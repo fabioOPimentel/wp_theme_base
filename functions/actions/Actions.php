@@ -11,6 +11,8 @@ use Library\EnviandoContato;
 use Library\WpHtmlCompression;
 use Library\Gcaptcha;
 
+use WP_Query;
+
 class Actions
 {
     /**
@@ -55,9 +57,6 @@ class Actions
         /* Verificando Captcha */
         add_action("wp_ajax_nopriv_gCaptcha",array(new Gcaptcha, 'verifyCaptcha'));
         add_action("wp_ajax_gCaptcha", array(new Gcaptcha, 'verifyCaptcha'));
-
-        /* Comprimindo codigo HTML */
-        //add_action('after_setup_theme', array($this, 'wp_html_compression_start'));
     }
 
     /**
@@ -78,7 +77,7 @@ class Actions
      */
     public function ScriptsBaseURL()
     {
-        wp_localize_script( 'template-js', 'baseUrl', array(
+        wp_localize_script( 'main', 'baseUrl', array(
             'templateUrl' => get_template_directory_uri(),
             'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
         ) );
@@ -110,15 +109,5 @@ class Actions
         $phpmailer->SMTPSecure = 'ssl';
         $phpmailer->From       = '';
         $phpmailer->FromName   = '';
-    }
-
-    static function wp_html_compression_finish($html) 
-    {
-        return new WP_HTML_Compression($html);
-    }
-
-    public function wp_html_compression_start() 
-    {
-        ob_start('self::wp_html_compression_finish');
     }
 }
