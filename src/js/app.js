@@ -4,8 +4,10 @@ import 'regenerator-runtime/runtime'
 import 'intersection-observer' // Optional
 import Vue from 'vue';
 import axios from 'axios';
+import VueCookies from 'vue-cookies'
 
 /** Components */
+Vue.use(VueCookies)
 
 /** Styles */
 
